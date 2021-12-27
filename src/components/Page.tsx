@@ -5,12 +5,24 @@ import DadosEmpresa from './DadosEmpresa'
 import DadosPessoais from './DadosPessoais'
 import UserName from './UserName'
 import './Page.css'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 interface TabPanelProps {
     children?: React.ReactNode
     index: number
     value: number
 }
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#15689e'
+        },
+        secondary: {
+            main: '#930be6'
+        }
+    }
+})
 
 function TabPanel(props: TabPanelProps): JSX.Element {
     const { children, value, index, ...other } = props
@@ -48,22 +60,32 @@ export default function BasicTabs(): JSX.Element {
             <Box sx={{ width: '100%', backgroundColor: 'white' }}>
                 <Box sx={{ borderColor: 'divider' }}>
                     <Paper sx={{ backgroundColor: '#f2f2f2' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-                            <Tab sx={{ padding: 3 }} label='DADOS PESSOAIS' {...a11yProps(0)} />
-                            <Tab
-                                sx={{ padding: 3 }}
-                                label='DADOS PROFISSIONAIS'
-                                {...a11yProps(1)}
-                            />
-                            <Tab sx={{ padding: 3 }} label='DADOS DA EMPRESA' {...a11yProps(2)} />
-                        </Tabs>
+                        <ThemeProvider theme={theme}>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                aria-label='basic tabs example'
+                            >
+                                <Tab label='DADOS PESSOAIS' {...a11yProps(0)} sx={{ padding: 3 }} />
+                                <Tab
+                                    sx={{ padding: 3 }}
+                                    label='DADOS PROFISSIONAIS'
+                                    {...a11yProps(1)}
+                                />
+                                <Tab
+                                    sx={{ padding: 3 }}
+                                    label='DADOS DA EMPRESA'
+                                    {...a11yProps(2)}
+                                />
+                            </Tabs>
+                        </ThemeProvider>
                     </Paper>
                 </Box>
                 <Box>
                     <UserName></UserName>
                     <TabPanel value={value} index={0}>
                         <DadosPessoais></DadosPessoais>
-                    </TabPanel>
+                    </TabPanel>{' '}
                     <TabPanel value={value} index={1}>
                         <DadosProfissionais></DadosProfissionais>
                     </TabPanel>
