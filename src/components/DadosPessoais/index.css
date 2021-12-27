@@ -1,0 +1,19 @@
+.textEmphasis {
+    margin: 16px 0;
+    font-weight: bold;
+}
+
+.subtitle {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.subtitle p {
+    margin-left: 4px;
+}
+
+ul {
+    margin-left: 28px;
+    color: rgb(66, 66, 66);
+}
