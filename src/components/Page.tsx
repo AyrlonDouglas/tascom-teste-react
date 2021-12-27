@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Tabs, Tab, Paper, Box, Button } from '@mui/material'
 import DadosProfissionais from './DadosProfissionais'
 import DadosEmpresa from './DadosEmpresa'
@@ -48,19 +48,35 @@ function a11yProps(index: number): { id: string; 'aria-controls': string } {
 }
 
 export default function BasicTabs(): JSX.Element {
-    const [value, setValue] = React.useState(0)
+    const [value, setValue] = useState(0)
+    const [fadePessoal, setFadePessoal] = useState(true)
+    const [fadeProfissional, setFadeProfissional] = useState(false)
+    const [fadeEmpresa, setFadeEmpresa] = useState(false)
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue)
+        if (newValue === 0) {
+            setFadePessoal(true)
+            setFadeProfissional(false)
+            setFadeEmpresa(false)
+        } else if (newValue === 1) {
+            setFadePessoal(false)
+            setFadeProfissional(true)
+            setFadeEmpresa(false)
+        } else {
+            setFadePessoal(false)
+            setFadeProfissional(false)
+            setFadeEmpresa(true)
+        }
     }
 
     return (
-        <div className='fullPage'>
-            <h1>Detalhamento Profissional</h1>
-            <Box sx={{ width: '100%', backgroundColor: 'white' }}>
-                <Box sx={{ borderColor: 'divider' }}>
-                    <Paper sx={{ backgroundColor: '#f2f2f2' }}>
-                        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <div className='fullPage'>
+                <h1>Detalhamento Profissional</h1>
+                <Box sx={{ width: '100%', backgroundColor: 'white' }}>
+                    <Box sx={{ borderColor: 'divider' }}>
+                        <Paper sx={{ backgroundColor: '#f2f2f2' }}>
                             <Tabs
                                 value={value}
                                 onChange={handleChange}
@@ -78,25 +94,25 @@ export default function BasicTabs(): JSX.Element {
                                     {...a11yProps(2)}
                                 />
                             </Tabs>
-                        </ThemeProvider>
-                    </Paper>
+                        </Paper>
+                    </Box>
+                    <Box>
+                        <UserName></UserName>
+                        <TabPanel value={value} index={0}>
+                            <DadosPessoais fade={fadePessoal}></DadosPessoais>
+                        </TabPanel>{' '}
+                        <TabPanel value={value} index={1}>
+                            <DadosProfissionais fade={fadeProfissional}></DadosProfissionais>
+                        </TabPanel>
+                        <TabPanel value={value} index={2}>
+                            <DadosEmpresa fade={fadeEmpresa}></DadosEmpresa>
+                        </TabPanel>
+                    </Box>
                 </Box>
-                <Box>
-                    <UserName></UserName>
-                    <TabPanel value={value} index={0}>
-                        <DadosPessoais></DadosPessoais>
-                    </TabPanel>{' '}
-                    <TabPanel value={value} index={1}>
-                        <DadosProfissionais></DadosProfissionais>
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        <DadosEmpresa></DadosEmpresa>
-                    </TabPanel>
-                </Box>
-            </Box>
-            <Button variant='contained' sx={{ marginTop: 2, backgroundColor: '#15689e' }}>
-                Voltar
-            </Button>
-        </div>
+                <Button variant='contained' sx={{ marginTop: 2, backgroundColor: '#15689e' }}>
+                    Voltar
+                </Button>
+            </div>
+        </ThemeProvider>
     )
 }
